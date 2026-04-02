@@ -55,8 +55,16 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectDistanceFilter(DistanceFilter value) {
+  Future<void> selectDistanceFilter(DistanceFilter value) async {
     _distanceFilter = value;
+    if (value != DistanceFilter.any && _userPosition == null) {
+      try {
+        _userPosition = await _locationService.getCurrentPosition();
+      } catch (_) {
+        // Keep the selected distance filter, but don't hide all places
+        // when location isn't available yet.
+      }
+    }
     notifyListeners();
   }
 
@@ -100,6 +108,7 @@ class HomeController extends ChangeNotifier {
       final distance = summary.distanceKm;
       final distanceMatches = switch (_distanceFilter) {
         DistanceFilter.any => true,
+        _ when _userPosition == null => true,
         DistanceFilter.underOneKm => distance != null && distance < 1,
         DistanceFilter.oneToFiveKm =>
           distance != null && distance >= 1 && distance <= 5,

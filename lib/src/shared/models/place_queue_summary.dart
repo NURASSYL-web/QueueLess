@@ -33,8 +33,8 @@ class PlaceQueueSummary {
     if (reports.isEmpty) {
       return PlaceQueueSummary(
         place: place,
-        queueLevel: QueueLevel.medium,
-        estimatedMinutes: 10,
+        queueLevel: QueueLevel.short,
+        estimatedMinutes: 3,
         lastUpdated: null,
         reportCount: 0,
         distanceKm: null,
