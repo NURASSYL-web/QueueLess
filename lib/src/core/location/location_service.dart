@@ -40,5 +40,16 @@ class LocationService {
     return earthRadiusKm * c;
   }
 
+  int estimateTravelMinutes({
+    required double distanceKm,
+    double averageCitySpeedKmPerHour = 24,
+  }) {
+    if (distanceKm <= 0.15) return 1;
+
+    final hours = distanceKm / averageCitySpeedKmPerHour;
+    final minutes = (hours * 60).ceil();
+    return minutes.clamp(1, 99);
+  }
+
   double _degToRad(double degrees) => degrees * pi / 180;
 }

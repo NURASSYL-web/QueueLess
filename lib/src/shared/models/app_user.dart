@@ -27,6 +27,8 @@ class AppUser {
 
   bool get isBusiness => role == UserRole.business;
   bool get hasPaidPlan => planPriceTenge > 0;
+  AppPlan get currentPlan => AppPlans.fromId(planId, role);
+  int get businessPlaceLimit => currentPlan.maxBusinessPlaces;
 
   Map<String, dynamic> toMap() {
     return {

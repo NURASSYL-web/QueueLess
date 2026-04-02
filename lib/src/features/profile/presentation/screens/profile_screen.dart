@@ -7,7 +7,6 @@ import 'package:queue/src/features/auth/presentation/controllers/auth_controller
 import 'package:queue/src/features/business/presentation/screens/business_dashboard_screen.dart';
 import 'package:queue/src/features/business/presentation/screens/manage_place_screen.dart';
 import 'package:queue/src/features/feedback/presentation/widgets/feedback_form_card.dart';
-import 'package:queue/src/features/profile/presentation/screens/my_reports_screen.dart';
 import 'package:queue/src/shared/models/app_plan.dart';
 import 'package:queue/src/shared/models/app_user.dart';
 import 'package:queue/src/shared/models/place.dart';
@@ -94,20 +93,8 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 14),
                   _PlanOverviewCard(profile: profile),
                   const SizedBox(height: 18),
-                  _ActionTile(
-                    icon: Icons.analytics_outlined,
-                    label: 'My Queue Reports',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const MyReportsScreen(),
-                        ),
-                      );
-                    },
-                  ),
                   if (profile?.isBusiness == true && currentUser != null) ...[
-                    const SizedBox(height: 12),
-                    _BusinessSection(ownerId: currentUser.uid),
+                    _BusinessSection(profile: profile!, ownerId: currentUser.uid),
                   ],
                   if (profile != null) ...[
                     const SizedBox(height: 14),
@@ -215,8 +202,9 @@ class _PlanOverviewCard extends StatelessWidget {
 }
 
 class _BusinessSection extends StatelessWidget {
-  const _BusinessSection({required this.ownerId});
+  const _BusinessSection({required this.profile, required this.ownerId});
 
+  final AppUser profile;
   final String ownerId;
 
   @override
@@ -227,12 +215,16 @@ class _BusinessSection extends StatelessWidget {
       stream: placesRepository.watchOwnerPlaces(ownerId),
       builder: (context, snapshot) {
         final ownPlaces = snapshot.data ?? const <Place>[];
+        final placeLimit = profile.businessPlaceLimit;
+        final canAddMore = ownPlaces.length < placeLimit;
+        final placesLeft = placeLimit - ownPlaces.length;
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _ActionTile(
-              icon: Icons.store_mall_directory_outlined,
-              label: ownPlaces.isEmpty ? 'Create Business Place' : 'Open Business Dashboard',
+              icon: Icons.dashboard_customize_outlined,
+              label: 'Open Business Dashboard',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
@@ -241,8 +233,60 @@ class _BusinessSection extends StatelessWidget {
                 );
               },
             ),
-            if (ownPlaces.isNotEmpty) ...[
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Your Businesses',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Plan limit: ${ownPlaces.length}/$placeLimit places',
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          canAddMore
+                              ? 'You can add $placesLeft more place${placesLeft == 1 ? '' : 's'}.'
+                              : 'Upgrade your plan to add more business places.',
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 132,
+                    child: ElevatedButton.icon(
+                      onPressed: canAddMore
+                          ? () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (_) =>
+                                      ManagePlaceScreen(ownerId: ownerId),
+                                ),
+                              );
+                            }
+                          : null,
+                      icon: const Icon(Icons.add_business_rounded),
+                      label: const Text('Add place'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (ownPlaces.isEmpty)
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
@@ -250,40 +294,75 @@ class _BusinessSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(color: AppColors.border),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      ownPlaces.first.name,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 8),
-                    Text('Live on map: Yes'),
-                    Text('Phone: ${ownPlaces.first.phone}'),
-                    Text('Instagram: ${ownPlaces.first.instagram}'),
-                    Text('Category: ${ownPlaces.first.category.label}'),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => ManagePlaceScreen(
-                                ownerId: ownerId,
-                                place: ownPlaces.first,
-                              ),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.edit_rounded),
-                        label: const Text('Quick edit place'),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  'You have not added a business place yet. Create one and it will appear here in your profile.',
                 ),
               ),
-            ],
+            ...ownPlaces.map(
+              (place) => Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              place.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.accent.withValues(alpha: 0.14),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(
+                              place.category.label,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: AppColors.accentSoft),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Text('Phone: ${place.phone}'),
+                      Text('Instagram: ${place.instagram}'),
+                      Text('On map: Yes'),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => ManagePlaceScreen(
+                                  ownerId: ownerId,
+                                  place: place,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.edit_rounded),
+                          label: const Text('Edit place'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       },

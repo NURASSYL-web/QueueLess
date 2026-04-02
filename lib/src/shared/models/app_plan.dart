@@ -12,6 +12,7 @@ class AppPlan {
     this.badge,
     this.isPopular = false,
     this.activationStatus = 'active',
+    this.maxBusinessPlaces = 0,
   });
 
   final String id;
@@ -24,6 +25,7 @@ class AppPlan {
   final String? badge;
   final bool isPopular;
   final String activationStatus;
+  final int maxBusinessPlaces;
 
   bool get isFree => priceTenge == 0;
 }
@@ -88,6 +90,7 @@ abstract final class AppPlans {
     ],
     badge: 'Demo',
     activationStatus: 'demo',
+    maxBusinessPlaces: 1,
   );
 
   static const AppPlan businessStart = AppPlan(
@@ -104,6 +107,7 @@ abstract final class AppPlans {
     ],
     badge: 'Best Value',
     isPopular: true,
+    maxBusinessPlaces: 1,
   );
 
   static const AppPlan businessGrowth = AppPlan(
@@ -118,6 +122,7 @@ abstract final class AppPlans {
       'Recommendation boosts in local discovery',
       'Multi-campaign promo support',
     ],
+    maxBusinessPlaces: 1,
   );
 
   static const AppPlan businessPro = AppPlan(
@@ -132,6 +137,7 @@ abstract final class AppPlans {
       'Future AI traffic forecasting access',
       'Priority support and expansion-ready setup',
     ],
+    maxBusinessPlaces: 5,
   );
 
   static List<AppPlan> forRole(UserRole role) {
@@ -144,5 +150,12 @@ abstract final class AppPlans {
 
   static AppPlan defaultForRole(UserRole role) {
     return role == UserRole.business ? businessDemo : freeExplorer;
+  }
+
+  static AppPlan fromId(String planId, UserRole role) {
+    return forRole(role).firstWhere(
+      (plan) => plan.id == planId,
+      orElse: () => defaultForRole(role),
+    );
   }
 }

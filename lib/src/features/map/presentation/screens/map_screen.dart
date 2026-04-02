@@ -252,12 +252,12 @@ class _MapViewState extends State<_MapView> {
     required Color color,
     required bool tinted,
   }) async {
-    const width = 150.0;
-    const height = 92.0;
-    const bubbleHeight = 56.0;
-    const radius = 22.0;
-    const pointerWidth = 28.0;
-    const pointerHeight = 22.0;
+    const width = 110.0;
+    const height = 70.0;
+    const bubbleHeight = 40.0;
+    const radius = 16.0;
+    const pointerWidth = 20.0;
+    const pointerHeight = 16.0;
 
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
@@ -295,9 +295,9 @@ class _MapViewState extends State<_MapView> {
         text: label,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 24,
+          fontSize: 18,
           fontWeight: FontWeight.w800,
-          letterSpacing: -0.8,
+          letterSpacing: -0.4,
         ),
       ),
       textDirection: TextDirection.ltr,

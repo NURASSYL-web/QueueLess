@@ -85,7 +85,7 @@ class _ManagePlaceScreenState extends State<ManagePlaceScreen> {
         ),
       ),
     );
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   @override

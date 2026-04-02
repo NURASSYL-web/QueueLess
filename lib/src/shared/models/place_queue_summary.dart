@@ -10,6 +10,7 @@ class PlaceQueueSummary {
     required this.lastUpdated,
     required this.reportCount,
     this.distanceKm,
+    this.travelMinutes,
   });
 
   final Place place;
@@ -18,8 +19,10 @@ class PlaceQueueSummary {
   final DateTime? lastUpdated;
   final int reportCount;
   final double? distanceKm;
+  final int? travelMinutes;
 
   bool get hasRecentReports => reportCount > 0 && lastUpdated != null;
+  int get mapDisplayMinutes => travelMinutes ?? estimatedMinutes;
   String get crowdLevel {
     if (reportCount >= 6) return 'High';
     if (reportCount >= 3) return 'Medium';
@@ -38,6 +41,7 @@ class PlaceQueueSummary {
         lastUpdated: null,
         reportCount: 0,
         distanceKm: null,
+        travelMinutes: null,
       );
     }
 
@@ -57,6 +61,7 @@ class PlaceQueueSummary {
       lastUpdated: latest,
       reportCount: reports.length,
       distanceKm: null,
+      travelMinutes: null,
     );
   }
 
@@ -67,6 +72,7 @@ class PlaceQueueSummary {
     DateTime? lastUpdated,
     int? reportCount,
     double? distanceKm,
+    int? travelMinutes,
   }) {
     return PlaceQueueSummary(
       place: place ?? this.place,
@@ -75,6 +81,7 @@ class PlaceQueueSummary {
       lastUpdated: lastUpdated ?? this.lastUpdated,
       reportCount: reportCount ?? this.reportCount,
       distanceKm: distanceKm ?? this.distanceKm,
+      travelMinutes: travelMinutes ?? this.travelMinutes,
     );
   }
 }

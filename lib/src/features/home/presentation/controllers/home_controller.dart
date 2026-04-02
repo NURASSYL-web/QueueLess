@@ -87,8 +87,14 @@ class HomeController extends ChangeNotifier {
         toLatitude: summary.place.latitude,
         toLongitude: summary.place.longitude,
       );
+      final travelMinutes = _locationService.estimateTravelMinutes(
+        distanceKm: distanceKm,
+      );
 
-      return summary.copyWith(distanceKm: distanceKm);
+      return summary.copyWith(
+        distanceKm: distanceKm,
+        travelMinutes: travelMinutes,
+      );
     }).toList();
 
     return enriched.where((summary) {
