@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queue/src/core/constants/app_colors.dart';
-import 'package:queue/src/core/widgets/brand_logo.dart';
 import 'package:queue/src/core/widgets/empty_state_view.dart';
 import 'package:queue/src/core/widgets/error_view.dart';
 import 'package:queue/src/core/widgets/loading_view.dart';
@@ -124,10 +123,8 @@ class _ListTopBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const BrandLogo(height: 30),
-          const SizedBox(width: 12),
           Text(
-            'Live Queue Feed',
+            'QueueLess Feed',
             style: Theme.of(
               context,
             ).textTheme.titleMedium?.copyWith(color: AppColors.accentSoft),
