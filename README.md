@@ -1,91 +1,201 @@
 # QueueLess
 
-QueueLess is a production-structured Flutter app for real-time queue tracking across Taraz. It is built as a two-sided platform: regular users can discover and report queues, while business users can manage their own place and attract nearby customers. The app uses Firebase Authentication, Cloud Firestore, Firebase Messaging, Firebase Storage, geolocation, and Google Maps Flutter.
+QueueLess is a startup-style Flutter mobile app for real-time queue discovery in Taraz.
 
-## What is implemented
+It is built as a two-sided platform:
 
-- Email/password authentication with persistent sessions and role selection
-- Map-first and list-first queue browsing with category, queue, distance, and freshness filters
-- Queue aggregation from recent Firestore reports only
-- Google Map with color-coded markers and place detail sheet
-- One-tap queue reporting sheet with optional image upload
-- User-owned queue report CRUD: create, read, update, delete
-- Business place creation and owner-only management
-- GPS-based nearby filtering and distance-aware queue cards
-- Profile screen with role-aware actions, logout, feedback capture, and recent validation feed
-- FCM client token sync plus a deployable Cloud Function for short-queue alerts
-- Firebase-ready architecture with repositories, feature modules, and presentation controllers
-- Seed dataset for Taraz places in `assets/seed/taraz_places.json`
-- Cloud Function source for push notifications in `functions/index.js`
+- Regular users can view live queues, report queue status, save alerts, and discover nearby places.
+- Business users can register their venue, manage queue visibility, and use a dedicated business dashboard.
 
-## Project structure
+The project is built with Flutter + Firebase and is structured for demo presentation, team collaboration, and real user testing.
+
+## Highlights
+
+- Real Firebase Authentication with role-based signup
+- Cloud Firestore as the main live database
+- Queue reporting and recent aggregation logic
+- Google Maps-based discovery flow
+- Business dashboard and owner place management
+- Firebase Storage support for queue update images
+- FCM-ready short-queue notification flow
+- Clean feature-based architecture
+- Branded UI, splash screen, and app icons
+
+## Product Model
+
+QueueLess follows a simple B2C + B2B startup model.
+
+### Regular users
+
+- Explore nearby places
+- See live queue conditions
+- Receive short-queue alerts
+- Upgrade later to premium plans
+
+### Business users
+
+- Register a business account
+- Add and manage their place
+- Update queue status faster
+- Improve local visibility and attract nearby visitors
+
+### Business pricing concept
+
+- `Business Demo` — `490 ₸`
+- `Business Start` — `2490 ₸ / month`
+- `Business Growth` — `3990 ₸ / month`
+- `Business Pro` — `4990 ₸ / month`
+
+### Future monetization
+
+- Premium consumer plans
+- Local business promotion
+- AI-based queue analytics and recommendations
+
+## Tech Stack
+
+- Flutter
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+- Firebase Cloud Messaging
+- Google Maps Flutter
+- Provider-based state management
+- Feature-first layered architecture
+
+## Key Features
+
+### User flow
+
+- Email/password sign up and sign in
+- Separate business registration flow
+- Map-first discovery
+- List view with filters
+- Queue status updates: `Short / Medium / Long`
+- Distance-aware filtering
+- Nearby queue insights
+- Alert subscriptions for short queues
+
+### Business flow
+
+- Business demo onboarding
+- Create and edit owned place
+- Business dashboard with KPI-style cards
+- Queue status quick update
+- Contact and venue visibility management
+- Place-specific activity view
+
+### Queue logic
+
+- `short = 3 min`
+- `medium = 10 min`
+- `long = 20 min`
+- only recent reports are used
+- old reports automatically age out of the dashboard
+
+## Screens
+
+- Auth
+- Business signup
+- Map
+- List
+- Profile
+- My reports
+- Manage place
+- Business dashboard
+- Queue update sheet
+
+## Project Structure
 
 ```text
 lib/
   main.dart
   src/
     core/
+      constants/
+      location/
+      services/
+      theme/
+      utils/
+      widgets/
     features/
       app/
       auth/
+      business/
+      feedback/
       home/
       map/
       profile/
       queue/
     shared/
+      models/
+      repositories/
 ```
 
-## Firebase setup
+## Quick Start
 
-QueueLess is wired for real Firebase credentials and intentionally does not include fake keys.
-
-1. Create a Firebase project.
-2. Enable:
-   - Authentication with Email/Password
-   - Cloud Firestore
-   - Cloud Messaging
-   - Firebase Storage
-3. Add Android and iOS apps in Firebase.
-4. Run the app with real values:
+### 1. Clone the repository
 
 ```bash
-flutter run \
-  --dart-define=FIREBASE_PROJECT_ID=your-project-id \
-  --dart-define=FIREBASE_MESSAGING_SENDER_ID=your-sender-id \
-  --dart-define=FIREBASE_STORAGE_BUCKET=your-project.appspot.com \
-  --dart-define=FIREBASE_ANDROID_API_KEY=your-android-api-key \
-  --dart-define=FIREBASE_ANDROID_APP_ID=your-android-app-id \
-  --dart-define=FIREBASE_IOS_API_KEY=your-ios-api-key \
-  --dart-define=FIREBASE_IOS_APP_ID=your-ios-app-id \
-  --dart-define=FIREBASE_IOS_BUNDLE_ID=com.queueless.app \
-  --dart-define=GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+git clone https://github.com/NURASSYL-web/QueueLess.git
+cd QueueLess
 ```
 
-## Native Google Maps setup
+### 2. Install dependencies
 
-Android:
-
-- The manifest already reads `${GOOGLE_MAPS_API_KEY}`.
-- Provide it through a Gradle property:
-
-```properties
-GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+```bash
+flutter pub get
 ```
 
-iOS:
+### 3. Run the project
 
-- `Info.plist` already reads `$(GOOGLE_MAPS_API_KEY)`.
-- Add `GOOGLE_MAPS_API_KEY=your-google-maps-api-key` in your Xcode build settings or `.xcconfig`.
+```bash
+flutter run
+```
 
-## Firestore collections
+## Team Setup
+
+This repository is currently prepared with working demo Firebase values in code, which makes it easier to run for presentation and team onboarding.
+
+If your team later wants to migrate QueueLess to a different Firebase or Google Maps project, use the template in [.env.example](/Users/nurasyltemirhan/Desktop/QuueLess/queue/.env.example) as a setup checklist.
+
+### Recommended onboarding steps for teammates
+
+1. Install Flutter and platform toolchains.
+2. Run `flutter pub get`.
+3. Confirm Firebase project access.
+4. Confirm Google Maps API access.
+5. Populate Firestore with the seed places file.
+6. Apply Firestore and Storage rules.
+7. Run on a real phone for notification testing.
+
+## Environment Template
+
+The repository includes a `.env.example` file for team reference.
+
+Important:
+
+- QueueLess does **not** auto-load `.env` files at runtime right now.
+- The file is provided as a clean shared checklist for credentials and platform setup.
+- If you move the app to another Firebase project, update:
+  - `lib/src/core/services/app_firebase_options.dart`
+  - Android Google Maps key in `AndroidManifest.xml`
+  - iOS Google Maps key in `Info.plist`
+  - web map key in `web/index.html`
+
+## Firestore Collections
 
 ### `users`
 
 ```json
 {
-  "email": "student@example.com",
+  "email": "user@example.com",
   "role": "user",
-  "pushToken": "optional-fcm-token"
+  "pushToken": "optional-token",
+  "planId": "free_explorer",
+  "planName": "Free Explorer",
+  "planPriceTenge": 0,
+  "planStatus": "active"
 }
 ```
 
@@ -93,7 +203,7 @@ iOS:
 
 ```json
 {
-  "ownerId": "firebase-auth-uid-of-business",
+  "ownerId": "business-user-id",
   "name": "Keruen Coffee",
   "category": "coffee",
   "latitude": 42.8982,
@@ -108,12 +218,12 @@ iOS:
 
 ```json
 {
-  "placeId": "place-document-id",
+  "placeId": "place-id",
   "userId": "firebase-auth-uid",
   "placeName": "Keruen Coffee",
   "queueLevel": "medium",
   "timestamp": "server timestamp",
-  "imageUrl": "optional-storage-download-url",
+  "imageUrl": "optional-image-url",
   "storagePath": "optional-storage-path"
 }
 ```
@@ -125,16 +235,22 @@ iOS:
   "userId": "firebase-auth-uid",
   "email": "tester@example.com",
   "rating": 5,
-  "comment": "The update flow felt clear and fast.",
+  "comment": "Nice UX and fast update flow.",
   "createdAt": "server timestamp"
 }
 ```
 
-## Seed data
+## Seed Data
 
-Use `assets/seed/taraz_places.json` to manually create `places` documents in Firestore. The sample documents now include business ownership and contact fields so the business flow can be tested end-to-end.
+The starter dataset for Taraz is in:
 
-## Suggested Firestore rules
+- [`assets/seed/taraz_places.json`](/Users/nurasyltemirhan/Desktop/QuueLess/queue/assets/seed/taraz_places.json)
+
+Use it to populate Firestore so the list and map screens are not empty on first launch.
+
+## Firebase Rules
+
+### Firestore rules
 
 ```text
 rules_version = '2';
@@ -169,7 +285,7 @@ service cloud.firestore {
 }
 ```
 
-## Suggested Storage rules
+### Storage rules
 
 ```text
 rules_version = '2';
@@ -183,16 +299,15 @@ service firebase.storage {
 }
 ```
 
-## Business flow notes
+## Notifications
 
-- Sign up as a `business` user to unlock place management in the profile screen.
-- Business users can create a place, pin it on the map, and later edit only their own place.
-- Any authenticated user can still contribute queue reports, which is useful for business owners and visitors alike.
-- Nearby short-queue alerts depend on FCM topic subscriptions and the included Cloud Function.
+QueueLess includes an FCM-ready flow for short-queue notifications.
 
-## Push notification deployment
+Cloud Function source:
 
-Deploy the included Cloud Function after installing Firebase CLI:
+- [`functions/index.js`](/Users/nurasyltemirhan/Desktop/QuueLess/queue/functions/index.js)
+
+Deploy with:
 
 ```bash
 cd functions
@@ -200,10 +315,40 @@ npm install
 firebase deploy --only functions
 ```
 
-## Notes
+## Branding
 
-- Queue calculations use reports from the last 15 minutes.
-- The app refreshes queue aggregation continuously so old reports age out automatically.
-- Push alerts require deploying the provided Cloud Function and testing on a real device.
-- Google Maps on web requires a valid Maps JavaScript API key configured in Google Cloud with working billing and browser permissions.
-- Validation with at least 3 testers cannot be fabricated in code. Use the in-app feedback form so real testers can leave evidence in `feedback_entries`.
+Custom project branding already included:
+
+- app logo
+- branded splash assets
+- Android launcher icons
+- iOS app icons
+
+## Validation Notes
+
+This project is code-complete for demo and testing, but a few items still depend on real-world setup:
+
+- Google Maps web permissions and billing
+- Firebase project access
+- deployed FCM function
+- real device notification testing
+- actual tester feedback and traction
+
+## Commands
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run
+```
+
+## Repository
+
+GitHub:
+
+- `https://github.com/NURASSYL-web/QueueLess`
+
+## License
+
+This repository is currently intended for academic demo, startup validation, and internal team use.
