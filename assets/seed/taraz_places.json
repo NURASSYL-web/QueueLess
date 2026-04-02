@@ -1,0 +1,122 @@
+[
+  {
+    "ownerId": "seed-cafeteria-owner",
+    "name": "Dostyk Student Cafeteria",
+    "category": "cafeterias",
+    "latitude": 42.9011,
+    "longitude": 71.3727,
+    "phone": "+7 700 101 0001",
+    "instagram": "@dostyk_cafeteria",
+    "createdAt": "2026-04-01T09:00:00Z"
+  },
+  {
+    "ownerId": "seed-cafeteria-owner",
+    "name": "Aspan Dining Hall",
+    "category": "cafeterias",
+    "latitude": 42.8935,
+    "longitude": 71.3849,
+    "phone": "+7 700 101 0002",
+    "instagram": "@aspan_dining",
+    "createdAt": "2026-04-01T09:05:00Z"
+  },
+  {
+    "ownerId": "seed-cafeteria-owner",
+    "name": "Zhambyl Campus Cafe",
+    "category": "cafeterias",
+    "latitude": 42.9068,
+    "longitude": 71.4113,
+    "phone": "+7 700 101 0003",
+    "instagram": "@zhambyl_campus_cafe",
+    "createdAt": "2026-04-01T09:10:00Z"
+  },
+  {
+    "ownerId": "seed-coffee-owner",
+    "name": "Keruen Coffee",
+    "category": "coffee",
+    "latitude": 42.8982,
+    "longitude": 71.3942,
+    "phone": "+7 700 202 0001",
+    "instagram": "@keruen_coffee",
+    "createdAt": "2026-04-01T09:15:00Z"
+  },
+  {
+    "ownerId": "seed-coffee-owner",
+    "name": "Mellow Beans Taraz",
+    "category": "coffee",
+    "latitude": 42.9126,
+    "longitude": 71.4015,
+    "phone": "+7 700 202 0002",
+    "instagram": "@mellowbeans_taraz",
+    "createdAt": "2026-04-01T09:20:00Z"
+  },
+  {
+    "ownerId": "seed-coffee-owner",
+    "name": "Nomad Brew House",
+    "category": "coffee",
+    "latitude": 42.8854,
+    "longitude": 71.3751,
+    "phone": "+7 700 202 0003",
+    "instagram": "@nomad_brew_house",
+    "createdAt": "2026-04-01T09:25:00Z"
+  },
+  {
+    "ownerId": "seed-bank-owner",
+    "name": "Halyk Bank Central Branch",
+    "category": "banks",
+    "latitude": 42.8998,
+    "longitude": 71.3971,
+    "phone": "+7 700 303 0001",
+    "instagram": "@halyk_taraz",
+    "createdAt": "2026-04-01T09:30:00Z"
+  },
+  {
+    "ownerId": "seed-bank-owner",
+    "name": "Kaspi Branch Tole Bi",
+    "category": "banks",
+    "latitude": 42.9094,
+    "longitude": 71.419,
+    "phone": "+7 700 303 0002",
+    "instagram": "@kaspi_taraz",
+    "createdAt": "2026-04-01T09:35:00Z"
+  },
+  {
+    "ownerId": "seed-bank-owner",
+    "name": "ForteBank Taraz Plaza",
+    "category": "banks",
+    "latitude": 42.8911,
+    "longitude": 71.3897,
+    "phone": "+7 700 303 0003",
+    "instagram": "@fortebank_taraz",
+    "createdAt": "2026-04-01T09:40:00Z"
+  },
+  {
+    "ownerId": "seed-clinic-owner",
+    "name": "Taraz City Clinic No. 1",
+    "category": "clinics",
+    "latitude": 42.9052,
+    "longitude": 71.3817,
+    "phone": "+7 700 404 0001",
+    "instagram": "@clinic1_taraz",
+    "createdAt": "2026-04-01T09:45:00Z"
+  },
+  {
+    "ownerId": "seed-clinic-owner",
+    "name": "Asar Family Clinic",
+    "category": "clinics",
+    "latitude": 42.8879,
+    "longitude": 71.4023,
+    "phone": "+7 700 404 0002",
+    "instagram": "@asar_family_clinic",
+    "createdAt": "2026-04-01T09:50:00Z"
+  },
+  {
+    "ownerId": "seed-clinic-owner",
+    "name": "Zhan Umit Medical Point",
+    "category": "clinics",
+    "latitude": 42.9162,
+    "longitude": 71.3864,
+    "phone": "+7 700 404 0003",
+    "instagram": "@zhan_umit_med",
+    "createdAt": "2026-04-01T09:55:00Z"
+  }
+]
